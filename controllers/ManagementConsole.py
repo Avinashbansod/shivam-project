@@ -8,4 +8,10 @@ def index():
     return render_template('management-console.html')
 
 def search_Guards():
-    return render_template('search-guards.html')    
+    employees = db.session.query(EmployeePersonalDetail.firstname, EmployeePersonalDetail.lastname,
+                   EmployeePersonalDetail.personaladdress, EmployeePersonalDetail.contactdetails, 
+                   ServiceLocation.city, ServiceLocation.serviceaddress) \
+                   .join(ServiceLocation) \
+                   .filter(EmployeePersonalDetail.empid == ServiceLocation.person_id).all()
+    
+    return render_template('search-guards.html',employees=employees)

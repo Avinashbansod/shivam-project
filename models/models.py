@@ -8,6 +8,7 @@ class EmployeePersonalDetail(db.Model):
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     personaladdress = db.Column(db.String(200), nullable=False)
+    contactdetails = db.Column(db.Integer)
     serviceaddress = db.relationship('ServiceLocation')
 
 class ServiceLocation(db.Model):
