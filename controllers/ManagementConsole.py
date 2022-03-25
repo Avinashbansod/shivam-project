@@ -1,4 +1,6 @@
+from crypt import methods
 import sys
+from unittest import result
 from flask import render_template, redirect, url_for, request, abort
 from models.models import EmployeePersonalDetail, ServiceLocation
 from flask_sqlalchemy import SQLAlchemy
@@ -9,13 +11,16 @@ def index():
     return render_template('management-console.html')
 
 
-def searchGuards():
-    employees = db.session.query(EmployeePersonalDetail.firstname, EmployeePersonalDetail.lastname,
+def populateallrecords():
+    records = db.session.query(EmployeePersonalDetail.firstname, EmployeePersonalDetail.lastname,
                                  EmployeePersonalDetail.personaladdress, EmployeePersonalDetail.contactdetails,
                                  ServiceLocation.city, ServiceLocation.serviceaddress) \
                                 .join(ServiceLocation) \
                                 .filter(EmployeePersonalDetail.empid == ServiceLocation.person_id).all()
+    return records                            
 
+def searchGuards():
+    employees = populateallrecords()
     return render_template('search-guards.html', employees=employees)
 
 
@@ -46,4 +51,30 @@ def createGuard():
 
 
 def updateGuard():
-    pass
+    all_locations = db.session.query(ServiceLocation).with_entities(ServiceLocation.city).distinct().all()
+    all_city = []
+    for item in all_locations:
+       for city in item: 
+         all_city.append(city)
+    
+    records = populateallrecords() 
+    if(request.method == 'GET'):
+     return render_template('update-guard-details.html',employees = records,cities = all_city)
+
+    else:
+      data = request.form
+      isdetailsnotok = False
+      for key in data:
+        if (data.get(key) == None) or (data.get(key) == ''):
+            isdetailsnotok = True
+      if isdetailsnotok:
+        return render_template('update-guard-details.html', cities = all_city, employees = records,status=f"Required fields are missing!")
+      else:
+        empid = db.session.query(EmployeePersonalDetail).\
+                filter(EmployeePersonalDetail.firstname == data.get('firstname'),EmployeePersonalDetail.lastname == data.get('lastname')).\
+                with_entities(EmployeePersonalDetail.empid).first()
+        db.session.query(ServiceLocation).\
+        filter(ServiceLocation.person_id == empid[0]).\
+        update({ServiceLocation.city: data.get('servingcity')})
+        db.session.commit()
+        return render_template('update-guard-details.html',cities = all_city, employees = records,status=f"{data.get('firstname')} {data.get('lastname')} is updated in database")      
