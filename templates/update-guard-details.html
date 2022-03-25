@@ -1,0 +1,46 @@
+{% extends "partials/management-console.html"%}
+{%block text%}
+<!-- Default form register -->
+<div class="container">
+<form class="text-center border border-light p-5" action="/management/register-new-guard" method="POST">
+
+    <p class="h4 mb-4">Enter Guard Details</p>
+
+    <div class="form-row mb-4">
+        <div class="col">
+            <!-- First name -->
+            <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First name">
+        </div>
+        <div class="col">
+            <!-- Last name -->
+            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name">
+        </div>
+    </div>
+
+    <!-- Address -->
+    <input type="text" id="residentialaddress" name="residentialaddress" class="form-control mb-4" placeholder="Residential Address">
+
+    <div class="form-row mb-4">
+        <div class="col">
+            <!--Serving City-->
+            <input type="text" id="servingcity" name="servingcity" class="form-control mb-4" placeholder="Serving at City">
+        </div>
+        <div class="col">
+            <input type="text" id="phonenumber" name="phonenumber" class="form-control" placeholder="Phone number">
+        </div>
+    </div>
+
+    <!--Serving Address -->
+    <input type="text" id="servingaddress" name="servingaddress" class="form-control mb-4" placeholder="Serving Address">
+    
+    <!-- Submit button -->
+    <button class="btn btn-info my-4 btn-block" type="submit">Submit Details</button>
+    {%block isdatainserted%}
+        <p style="color: red;">{{ status }}</p>
+    {%endblock%}
+    <hr>
+
+</form>
+</div>
+<!-- Default form register -->
+{%endblock%}
