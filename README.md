@@ -1,3 +1,6 @@
+# Requirements for the application
+  pyhton3 , pip3 , postgressql database, PostgreSQL 14.2
+
 # Steps to install the application:
 1. Create venv in python3
    python3 -m venv shivamproject
