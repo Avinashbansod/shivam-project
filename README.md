@@ -14,3 +14,6 @@
 5. export the flask env variables
    export FLASK_APP=app.py
    export FLASK_ENV=development
+
+6. run the flask app on port 80
+   flask run --host 0.0.0.0 --port 80
