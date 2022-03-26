@@ -73,8 +73,29 @@ def updateGuard():
         empid = db.session.query(EmployeePersonalDetail).\
                 filter(EmployeePersonalDetail.firstname == data.get('firstname'),EmployeePersonalDetail.lastname == data.get('lastname')).\
                 with_entities(EmployeePersonalDetail.empid).first()
+        if(empid == None):
+          return render_template('update-guard-details.html', cities = all_city, employees = records,status=f"No such user exist!")          
+        
         db.session.query(ServiceLocation).\
         filter(ServiceLocation.person_id == empid[0]).\
-        update({ServiceLocation.city: data.get('servingcity')})
+        update({ ServiceLocation.city: data.get('servingcity'), ServiceLocation.serviceaddress: data.get('servingaddress') })
         db.session.commit()
-        return render_template('update-guard-details.html',cities = all_city, employees = records,status=f"{data.get('firstname')} {data.get('lastname')} is updated in database")      
+        return redirect('/management/search-guards')
+
+def deleteGuard():
+    data = request.form
+    records = populateallrecords()
+    if(request.method == 'GET'):
+     return render_template('delete-guard.html',employees = records)
+    else:
+      empid = db.session.query(EmployeePersonalDetail).\
+                filter(EmployeePersonalDetail.firstname == data.get('firstname'),EmployeePersonalDetail.lastname == data.get('lastname')).\
+                with_entities(EmployeePersonalDetail.empid).first()
+    
+      if(empid == None):
+        return render_template('delete-guard.html', employees = records,status=f"No such user exist!")
+     
+      db.session.query(ServiceLocation).filter(ServiceLocation.person_id == empid[0]).delete()
+      db.session.query(EmployeePersonalDetail).filter(EmployeePersonalDetail.empid == empid[0]).delete()
+      db.session.commit()
+      return redirect('/management/search-guards')
