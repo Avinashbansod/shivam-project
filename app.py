@@ -1,55 +1,16 @@
-<<<<<<< HEAD
-from flask import Flask, render_template
-from flask_migrate import Migrate
-from models.models import db
-
-=======
 from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_migrate import Migrate
 from models.models import db, EmployeePersonalDetail, ServiceLocation
 import config
->>>>>>> sss
 # from routes.our_services import our_services
 from routes.management_console import management_console
 
 app = Flask(__name__)
-<<<<<<< HEAD
-app.config.from_object("config")
-=======
 app.config.from_object('config')
->>>>>>> sss
 db.init_app(app)
 migrate = Migrate(app, db)
 
 # app.register_blueprint(our_services, url_prefix='/our-services')
-<<<<<<< HEAD
-app.register_blueprint(management_console, url_prefix="/management")
-
-
-@app.route("/")
-def index():
-    return render_template("home.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/home")
-def home():
-    return render_template("home.html")
-
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run(host='0.0.0.0',port='5000')
-=======
 app.register_blueprint( management_console, url_prefix='/management')
 
 @app.route('/')
@@ -75,4 +36,3 @@ def ourServices():
 if __name__ == '__main__':
     app.debug = True
     app.run()
->>>>>>> sss
