@@ -1,0 +1,76 @@
+{% extends "partials/management-console.html"%}
+{%block text%}
+<table id="emptable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class="th-sm">First Name
+  
+        </th>
+        <th class="th-sm">Last Name
+  
+        </th>
+        <th class="th-sm">Personal Address
+  
+        </th>
+        <th class="th-sm">Contact
+  
+        </th>
+        <th class="th-sm">Work City
+  
+        </th>
+        <th class="th-sm">Working At
+  
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for employee in employees%}
+      <tr>
+        {%for item in employee%}
+        <td>{{ item }}</td>
+        {%endfor%}
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+<!-- Default form register -->
+<div class="container">
+<form class="text-center border border-light p-5" action="/management/update-guard" method="POST">
+
+    <p class="h4 mb-4">Enter Guard Details</p>
+
+    <div class="form-row mb-4">
+        <div class="col">
+            <!-- First name -->
+            <input type="text" id="firstname" name="firstname" class="form-control" placeholder="First name">
+        </div>
+        <div class="col">
+            <!-- Last name -->
+            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name">
+        </div>
+    </div>
+    <div class="form-row mb-4">
+        <div class="col">
+            <!--Serving City-->
+            <select class="browser-default custom-select mb-4" id="servingcity" name="servingcity">
+                {%for city in cities%}
+                <option>{{ city }}</option>
+                {%endfor%}
+            </select>
+        </div>
+    </div>
+
+    <!--Serving Address -->
+    <input type="text" id="servingaddress" name="servingaddress" class="form-control mb-4" placeholder="Serving Address">
+    
+    <!-- Submit button -->
+    <button class="btn btn-info my-4 btn-block" type="submit">Submit Details</button>
+    {%block isdatainserted%}
+        <p style="color: red;">{{ status }}</p>
+    {%endblock%}
+    <hr>
+
+</form>
+</div>
+<!-- Default form register -->
+{%endblock%}
