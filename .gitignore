@@ -1,6 +1,10 @@
+.idea
+Lib
+Scripts
 __pycache__
-bin
 include
+pyvenv.cfg
+bin
 lib
 lib64
 share

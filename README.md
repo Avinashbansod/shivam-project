@@ -18,5 +18,6 @@
    export FLASK_APP=app.py
    export FLASK_ENV=development
 
-6. run the flask app on port 8080
-   flask run --host 0.0.0.0 --port 8080
+6. run the flask app on port 80
+   flask run --host 0.0.0.0 --port 80
+7. shivam is king

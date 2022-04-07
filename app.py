@@ -1,39 +1,38 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_migrate import Migrate
-from models.models import db
-
+from models.models import db, EmployeePersonalDetail, ServiceLocation
+import config
 # from routes.our_services import our_services
 from routes.management_console import management_console
 
 app = Flask(__name__)
-app.config.from_object("config")
+app.config.from_object('config')
 db.init_app(app)
 migrate = Migrate(app, db)
 
 # app.register_blueprint(our_services, url_prefix='/our-services')
-app.register_blueprint(management_console, url_prefix="/management")
+app.register_blueprint( management_console, url_prefix='/management')
 
-
-@app.route("/")
+@app.route('/')
 def index():
-    return render_template("home.html")
+    return render_template('home.html')
 
-
-@app.route("/about")
+@app.route('/about')
 def about():
-    return render_template("about.html")
+    return render_template('about.html')
 
-
-@app.route("/home")
+@app.route('/home')
 def home():
-    return render_template("home.html")
+    return render_template('home.html')
 
-
-@app.route("/contact")
+@app.route('/contact')
 def contact():
-    return render_template("contact.html")
+    return render_template('contact.html')
 
+@app.route('/our-services')
+def ourServices():
+    return render_template('our-services.html')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0',port='5000')
+    app.run()
